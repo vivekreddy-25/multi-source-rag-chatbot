@@ -2,6 +2,15 @@
 
 A Retrieval-Augmented Generation (RAG) customer care chatbot for telecom support. It answers questions about mobile connectivity, billing, SIM issues, and roaming by retrieving relevant context from three knowledge sources and generating responses with Llama 3.1 8B, running fully locally via Ollama.
 
+## About This Project
+
+This project started from a YouTube RAG tutorial and was substantially modified to run entirely on local infrastructure:
+
+- Replaced the Groq-hosted Qwen3-32B LLM with a fully local **Llama 3.1 8B** served via **Ollama**
+- Replaced **ChromaDB** with **FAISS** as the vector store (ChromaDB's gRPC/OpenTelemetry dependency chain hit native-DLL loading issues on Windows; FAISS has clean prebuilt wheels)
+- Replaced HuggingFace `sentence-transformers` embeddings with Ollama's local **nomic-embed-text** model (avoided a similar native-dependency chain through scipy/scikit-learn)
+- The result runs **entirely locally** — no API keys, no external services, no per-token costs
+
 ## Architecture
 
 ```
@@ -45,7 +54,7 @@ rag-telecom-chatbot/
 ## Prerequisites
 
 - Python 3.11+
-- pip (or [uv](https://docs.astral.sh/uv/))
+- pip
 - [Ollama](https://ollama.com) installed and running locally
 - The following models pulled in Ollama:
   ```bash
