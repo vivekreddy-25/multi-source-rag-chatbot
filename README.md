@@ -4,12 +4,11 @@ A Retrieval-Augmented Generation (RAG) customer care chatbot for telecom support
 
 ## About This Project
 
-This project started from a YouTube RAG tutorial and was substantially modified to run entirely on local infrastructure:
+I started this from a YouTube RAG tutorial that used Groq (Qwen3-32B) for generation and ChromaDB + HuggingFace `sentence-transformers` for retrieval. I wanted to run everything locally instead, so I swapped the LLM for **Llama 3.1 8B** served through **Ollama**.
 
-- Replaced the Groq-hosted Qwen3-32B LLM with a fully local **Llama 3.1 8B** served via **Ollama**
-- Replaced **ChromaDB** with **FAISS** as the vector store (ChromaDB's gRPC/OpenTelemetry dependency chain hit native-DLL loading issues on Windows; FAISS has clean prebuilt wheels)
-- Replaced HuggingFace `sentence-transformers` embeddings with Ollama's local **nomic-embed-text** model (avoided a similar native-dependency chain through scipy/scikit-learn)
-- The result runs **entirely locally** — no API keys, no external services, no per-token costs
+That's when I ran into a real problem: my Windows machine has an Application Control policy that blocks unsigned/unrecognized native DLLs. ChromaDB pulls in a gRPC/OpenTelemetry dependency chain, and `sentence-transformers` pulls in `scipy`/`scikit-learn` — both got blocked mid-import, one package at a time, as I tried to install and run the original stack. Rather than disable a security feature on my machine, I migrated the vector store to **FAISS** (clean prebuilt wheels, no gRPC) and switched embeddings to Ollama's **nomic-embed-text** model, since both sidestep the native-dependency chains that kept getting flagged.
+
+The result runs **entirely locally** — no API keys, no external services, no per-token costs, and nothing that trips native-code security policies.
 
 ## Architecture
 
