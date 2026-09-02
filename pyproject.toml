@@ -1,0 +1,18 @@
+[project]
+name = "multi-source-rag-chatbot"
+version = "0.1.0"
+description = "RAG-based telecom customer care chatbot (local: FAISS + Ollama)"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain",
+    "langchain-core",
+    "faiss-cpu",
+    "langchain-ollama",
+    "pandas",
+    "python-dotenv",
+    "streamlit",
+    "fpdf2",
+    "pypdf",
+    "langchain-community",
+    "langchain-text-splitters",
+]
