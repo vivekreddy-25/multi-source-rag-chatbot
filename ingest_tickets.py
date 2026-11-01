@@ -1,20 +1,26 @@
 """
-Ingests resolved tickets from data/tickets.db into a FAISS index at faiss_store/tickets.
+Ingests the resolved-ticket database into a FAISS index.
+This makes real past support cases searchable so the assistant can answer from lived examples.
 Run once (or after adding new tickets): python ingest_tickets.py
 """
 import os
+# Keep local indexing output minimal while embeddings are created.
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 import sqlite3
 from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 from langchain_ollama import OllamaEmbeddings
 
+# Index folder for ticket-based retrieval.
 FAISS_DIR   = os.path.join("faiss_store", "tickets")
+# SQLite database containing resolved telecom support cases.
 DB_PATH     = os.path.join("data", "tickets.db")
+# The embedding model served locally by Ollama.
 EMBED_MODEL = "nomic-embed-text"
 
 
 def load_ticket_documents(db_path: str) -> list[Document]:
+    # Only resolved tickets are indexed because they are the most useful historical evidence.
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     rows = conn.execute(

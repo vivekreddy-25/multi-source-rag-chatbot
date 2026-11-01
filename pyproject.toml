@@ -8,7 +8,6 @@ dependencies = [
     "langchain-core",
     "faiss-cpu",
     "langchain-ollama",
-    "pandas",
     "python-dotenv",
     "streamlit",
     "fpdf2",

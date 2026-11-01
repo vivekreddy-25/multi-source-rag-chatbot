@@ -1,12 +1,19 @@
+"""
+Streamlit UI for the local telecom support chatbot.
+This file provides the browser-based front end for the same RAG pipeline used in the CLI.
+"""
 import os
+# Reduce noisy model logs during startup and run time.
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 
 import streamlit as st
 from dotenv import load_dotenv
 from rag_chain import build_chain
 
+# Local settings are optional for this project, but the pattern is kept for consistency.
 load_dotenv()
 
+# A curated set of telecom support questions used in the sidebar for quick testing.
 SAMPLE_QUESTIONS = [
     "Why is my mobile internet so slow?",
     "My calls keep dropping — what should I do?",
@@ -28,6 +35,7 @@ st.set_page_config(
 def get_chain():
     return build_chain()
 
+# Keep a simple in-memory chat history so the conversation persists while the app is open.
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "pending_question" not in st.session_state:
@@ -64,11 +72,13 @@ if st.session_state.pending_question:
     st.session_state.pending_question = None
 
 if question:
+    # Save the user request and render it before streaming the model answer.
     st.session_state.messages.append({"role": "user", "content": question})
     with st.chat_message("user"):
         st.markdown(question)
 
     with st.chat_message("assistant"):
+        # Stream the answer token by token for a more natural chat feel.
         chain = get_chain()
         placeholder = st.empty()
         response = ""

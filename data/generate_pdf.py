@@ -1,12 +1,15 @@
 """
-Generates data/telecom_guide.pdf  - a multi-page Telecom Technical Reference Guide.
+Generates the telecom guide PDF used as a reference source for retrieval.
+This file creates a static knowledge document that supplements FAQ and ticket data.
 Run once: python data/generate_pdf.py
 """
 import os
 from fpdf import FPDF
 
+# Output location for the generated guide.
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "telecom_guide.pdf")
 
+# Long-form reference sections used to create the PDF. These are later split into chunks by ingest_pdf.py.
 SECTIONS = [
     (
         "1. Introduction to Mobile Networks",
@@ -137,6 +140,7 @@ Data Privacy: Customer records are subject to data protection regulations. Agent
 ]
 
 
+# Custom PDF class for a simple reference-style telecom guide.
 class PDF(FPDF):
     def header(self):
         self.set_font("Helvetica", "B", 10)
@@ -155,6 +159,7 @@ class PDF(FPDF):
 
 
 def build_pdf(output_path: str):
+    # Assemble the PDF using the prepared sections so it can be indexed later as guide content.
     pdf = PDF()
     pdf.set_auto_page_break(auto=True, margin=20)
     pdf.set_margins(15, 20, 15)

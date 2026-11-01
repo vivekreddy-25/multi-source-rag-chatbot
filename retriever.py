@@ -1,8 +1,7 @@
 """
-Builds a merged retriever across all three FAISS indexes:
-  - faq     : FAQ entries (no chunking — 1 row = 1 doc)
-  - tickets : resolved support tickets (no chunking — 1 ticket = 1 doc)
-  - guides  : PDF guide chunks (RecursiveCharacterTextSplitter applied at ingest)
+Builds the merged retriever for the project.
+It loads the three FAISS indexes and combines their top matches into a single list of documents.
+This is the retrieval layer used by the RAG chain before the model answers a question.
 """
 import os
 from langchain_community.vectorstores import FAISS
@@ -10,7 +9,9 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_core.runnables import RunnableLambda
 from langchain_core.documents import Document
 
+# FAISS indexes are stored on disk so we can reuse them without re-embedding every query.
 FAISS_ROOT  = "faiss_store"
+# This matches the local embedding model served by Ollama.
 EMBED_MODEL = "nomic-embed-text"
 
 
@@ -39,6 +40,8 @@ def build_retriever(
     guides_retriever  = guides_store.as_retriever(search_kwargs={"k": k_guides})
 
     def retrieve(query: str) -> list[Document]:
+        # Each source contributes a small, focused slice of evidence.
+        # Using top-3 from each index keeps the final prompt informative without becoming noisy.
         return (
             faq_retriever.invoke(query)
             + tickets_retriever.invoke(query)

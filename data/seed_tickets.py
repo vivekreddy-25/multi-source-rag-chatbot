@@ -1,12 +1,15 @@
 """
 Creates and seeds the SQLite tickets database with sample case tickets.
+This file gives the project a realistic set of historical telecom issues to retrieve from.
 Run once: python data/seed_tickets.py
 """
 import sqlite3
 import os
 
+# SQLite database used by the ticket retriever.
 DB_PATH = os.path.join(os.path.dirname(__file__), "tickets.db")
 
+# Example resolved and escalated support cases. Each row represents a real-world telecom issue.
 TICKETS = [
     ("TK-001", "connectivity", "No internet access", "Customer reports complete loss of mobile internet after switching from 3G to 4G mode.", "Guided customer to toggle airplane mode and reset APN settings. Internet restored after APN was reset to default (internet.telecom.example).", "resolved"),
     ("TK-002", "connectivity", "Intermittent signal drops", "Customer in a suburban area experiences signal dropping to zero several times per day, affecting both calls and data.", "Network team identified a faulty sector antenna on the nearest tower. Temporary fix applied remotely; full hardware replacement scheduled within 48 hours. Customer offered 500 MB data compensation.", "resolved"),
@@ -31,6 +34,7 @@ TICKETS = [
 ]
 
 def seed():
+    # Create the database schema and insert the sample support tickets for retrieval testing.
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
