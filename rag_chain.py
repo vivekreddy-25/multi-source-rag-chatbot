@@ -49,11 +49,6 @@ def build_chain():
     llm = ChatOllama(
         model="llama3.1:8b",
         temperature=0,
-        max_tokens=None,
-        # Keep local reasoning output predictable for this small support assistant.
-        reasoning_format="parsed",
-        timeout=None,
-        max_retries=2,
     )
 
     chain = (

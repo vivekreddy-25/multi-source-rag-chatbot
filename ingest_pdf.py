@@ -4,8 +4,6 @@ This file splits the guide into chunks so the retriever can match more precise p
 Run once (or after regenerating the PDF): python ingest_pdf.py
 """
 import os
-# Keep local embedding logs quiet during indexing.
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter

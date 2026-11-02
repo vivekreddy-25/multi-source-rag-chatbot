@@ -129,7 +129,7 @@ cd rag-telecom-chatbot
 python -m venv .venv
 .venv\Scripts\activate      # Windows
 # source .venv/bin/activate  # macOS/Linux
-python -m pip install langchain langchain-core faiss-cpu langchain-ollama python-dotenv streamlit fpdf2 pypdf langchain-community langchain-text-splitters
+python -m pip install langchain langchain-core faiss-cpu langchain-ollama streamlit fpdf2 pypdf langchain-community langchain-text-splitters
 ```
 
 ### 2) Start Ollama

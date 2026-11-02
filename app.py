@@ -2,16 +2,8 @@
 Streamlit UI for the local telecom support chatbot.
 This file provides the browser-based front end for the same RAG pipeline used in the CLI.
 """
-import os
-# Reduce noisy model logs during startup and run time.
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"
-
 import streamlit as st
-from dotenv import load_dotenv
 from rag_chain import build_chain
-
-# Local settings are optional for this project, but the pattern is kept for consistency.
-load_dotenv()
 
 # A curated set of telecom support questions used in the sidebar for quick testing.
 SAMPLE_QUESTIONS = [

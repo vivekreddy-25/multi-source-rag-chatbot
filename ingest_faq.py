@@ -5,8 +5,6 @@ Run once (or whenever the CSV changes): python ingest_faq.py
 """
 import csv
 import os
-# Keep the embedding output quiet during local indexing.
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 from langchain_ollama import OllamaEmbeddings

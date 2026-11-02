@@ -4,8 +4,6 @@ This makes real past support cases searchable so the assistant can answer from l
 Run once (or after adding new tickets): python ingest_tickets.py
 """
 import os
-# Keep local indexing output minimal while embeddings are created.
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 import sqlite3
 from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
