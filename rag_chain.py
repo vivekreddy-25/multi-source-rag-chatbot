@@ -1,7 +1,7 @@
 """
 Builds the RAG chain for the telecom support chatbot.
 The chain retrieves relevant documents, formats them into context, and passes them to the local
-Llama 3.1 8B model served by Ollama.
+Llama 3.1 8B model via Ollama.
 """
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -18,7 +18,7 @@ Use ONLY the context below to answer the customer's question.
 The context comes from three sources:
 - FAQ entries (general policy and how-to information)
 - Past support tickets (real resolved cases with step-by-step resolutions)
-- Telecom guide chunks (reference material and setup instructions)
+- PDF guides (reference material and setup instructions)
 
 If the context does not contain enough information to answer confidently, say so clearly \
 and suggest the customer call 611 or use the MyTelecom app.
